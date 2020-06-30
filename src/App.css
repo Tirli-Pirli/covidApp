@@ -2,9 +2,31 @@ body {
     background-color: rgb(250, 250, 250);
 
 }
-
+.image {
+    width: 370px;
+    display: block;
+    margin: 0 auto;
+    padding-bottom: 30px;
+}
 /* .container {
     display: flex;
     align-items: center;
     justify-content: center;
 } */
+
+@media (max-width: 980px) {
+    .card-container {
+        flex-direction: column;
+        align-items: center;
+        /* align-items: center; */
+        /* width: 300px; */
+    }
+    .card {
+        margin-bottom: 30px;
+        width: 300px;
+        justify-content: center;
+    }
+    /* .image {
+        margin: 0 auto;
+    } */
+}

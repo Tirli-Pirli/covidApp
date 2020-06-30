@@ -1,6 +1,7 @@
 .card-container {
     display: flex;
     justify-content: space-evenly;
+    padding-bottom: 50px;
 }
 .card {
     text-align: center;

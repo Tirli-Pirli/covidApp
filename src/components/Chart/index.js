@@ -3,32 +3,68 @@ import { fetchDailyData} from '../../api';
 import { Line, Bar} from 'react-chartjs-2';
 import './index.css'
 
-const Chart = () => {
+const Chart = ({data: {confirmed, deaths, recovered}, country}) => {
     const [dailyData, setDailyData] = useState([])
 
     useEffect(() => {
         const fetchAPI = async () => {
-            setDailyData(await fetchDailyData)
+            setDailyData(await fetchDailyData())
         }
         fetchAPI()
     }, [])
 
     const lineChart = (
-       dailyData.length !== 0
+       dailyData.length
        ?  (
            <Line
            data={{
-               labels: '',
-               datasets:[{},{}]
+               labels: dailyData.map(({date})=> date),
+               datasets:[{
+                data: dailyData.map(({confirmed}) => confirmed),
+                label: 'Infected',
+                borderColor: '#3333ff',
+                fill: true,
+               },
+               {
+                data: dailyData.map(({deaths}) => deaths),
+                label: 'Deaths',
+                borderColor: 'red',
+                backgroundColor: 'rgba(255, 0, 0, 0.5)',
+                fill: true,
+               }]
            }}
            />
        ) : null
     )
 
-    return (
-        <React.Fragment>
+    const barChart = (
+        confirmed
+        ? (
+            <Bar
+                data={{
+                    labels:['Infected', 'Recovered', 'Deaths'],
+                    datasets: [{
+                        label: 'People',
+                        backgroundColor: [
+                            '#26c726',
+                            '#63639b',
+                           '#ec4545'
+                        ],
+                        data:[confirmed.value, recovered.value, deaths.value]
+                    }]
+                }}
+                options={{
+                    legend: { display: false },
+                    title: {display: true, text:`Current state in ${country}`}
+                }}
+            />
+        ) : null
+    )
 
-        </React.Fragment>
+    return (
+       <div className="chart-container">
+           {country ? barChart : lineChart}
+       </div>
     )
 }
 
